@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'Applist.dart';
+import 'AudioList.dart';
+import 'Filelist.dart';
+import 'Medialist.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -26,7 +31,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('Fetch')),
+        title: const Center(child: Text('Fetch')),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -80,11 +85,10 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       body: TabBarView(
         controller: _tabController,
         children: const [
-          Center(child: Text('App Content')),
-          Center(child: Text('Audio Content')),
-          Center(child: Text('Video Content')),
-          Center(child: Text('Files Content')),
-          Center(child: Text('Folders Content')),
+          Applist(),
+          MediaList(),
+          Audiolist(),
+          Filelist(),
         ],
       ),
       floatingActionButton: Row(
@@ -108,7 +112,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             label: const Text('Receive'),
             icon: const Icon(Icons.download),
             heroTag: 'Receive',
-            shape: RoundedRectangleBorder(),
+            shape: const RoundedRectangleBorder(),
             extendedPadding: const EdgeInsets.all(16.0),
           ),
         ],
