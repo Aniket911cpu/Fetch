@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'Applist.dart';
 import 'AudioList.dart';
 import 'Filelist.dart';
-import 'Medialist.dart';
+import 'MediaList.dart';
+import 'package:fetch/Onboarding/OnboardingPage.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final ValueNotifier<ThemeMode> themeMode;
+
+  const HomePage({super.key, required this.themeMode});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -14,11 +16,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  String _username = 'Guest';
+  String _avatar = 'lib/assets/default_avatar.png';
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
@@ -33,16 +37,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       appBar: AppBar(
         title: const Center(child: Text('Fetch')),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              // Action for the icon button
+          Switch(
+            value: widget.themeMode.value == ThemeMode.dark,
+            onChanged: (value) {
+              widget.themeMode.value = value ? ThemeMode.dark : ThemeMode.light;
             },
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          isScrollable: false,
+          isScrollable: true,
           tabs: const [
             Tab(text: 'App'),
             Tab(text: 'Media'),
@@ -54,17 +58,26 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const <Widget>[
+          children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: AssetImage(_avatar),
+                    radius: 40,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    _username,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                    ),
+                  ),
+                ],
               ),
             ),
             ListTile(
@@ -101,7 +114,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             label: const Text('Send'),
             icon: const Icon(Icons.upload),
             heroTag: 'Send',
-            shape: const RoundedRectangleBorder(),
+            shape: RoundedRectangleBorder(),
             extendedPadding: const EdgeInsets.all(16.0),
           ),
           const SizedBox(width: 16),
@@ -112,7 +125,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             label: const Text('Receive'),
             icon: const Icon(Icons.download),
             heroTag: 'Receive',
-            shape: const RoundedRectangleBorder(),
+            shape: RoundedRectangleBorder(),
             extendedPadding: const EdgeInsets.all(16.0),
           ),
         ],
