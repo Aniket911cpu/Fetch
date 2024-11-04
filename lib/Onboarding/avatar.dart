@@ -16,9 +16,9 @@ class AvatarSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Select Avatar')),
+      appBar: AppBar(title: const Text('Select Avatar')),
       body: GridView.builder(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: 10,
